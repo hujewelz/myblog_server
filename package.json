@@ -1,0 +1,21 @@
+{
+  "name": "blog_server",
+  "version": "1.0.0",
+  "description": "blog service",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "hujewelz",
+  "license": "MIT",
+  "dependencies": {
+    "config-lite": "^1.5.0",
+    "connect-mongo": "^1.3.2",
+    "express": "^4.15.2",
+    "express-formidable": "^1.0.0",
+    "express-session": "^1.15.1",
+    "moment": "^2.17.1",
+    "mongolass": "^2.4.4",
+    "objectid-to-timestamp": "^1.3.0"
+  }
+}
