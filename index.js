@@ -27,5 +27,5 @@ app.use(require('express-formidable')({
 
 routes(app);
  app.listen(config.port, function() {
-   console.log('blog listening on port ${config.port}');
+   console.log(`listening on port ${config.port}`);
  });
