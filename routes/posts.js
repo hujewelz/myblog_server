@@ -6,33 +6,39 @@ const errorHandler = require('../middlewares/error-handler');
 
 // 获取所有文章
 router.get('/', function (req, res, next) {
-  var author = req.query.author;
+  const author = req.query.author;
 
   PostModel.getPosts(author)
     .then(function (posts) {
-      res.jsonp(posts);
+      res.jsonp({
+        code: 0,
+        result: posts,
+        msg: ''
+      });
     })
     .catch(next);
 });
 
-// 新建文章页
-router.get('/new', checkLogin, errorHandler, function (err, req, res, next) {
-  res.jsonp({
-    code: 0,
-    msg: 'ok'
-  });
-});
+router.get('/:id', function (req, res, next) {
+  const ID = req.params.id;
+  console.log(`post id ${ID}`);
+  PostModel.getPostById(ID)
+    .then(function (post) {
+      if (!post) {
+        throw new Error('post not exist');
+      }
+      res.jsonp({
+        code: 0,
+        result: post,
+        msg: ''
+      });
+    })
+    .catch(next);
+})
 
 // 新建文章
-router.post('/', checkLogin, errorHandler, function (err, req, res, next) {
-  if (err) {
-    return res.status(500).jsonp({
-      code: 100,
-      msg: 'please login first'
-    });
-  }
-
-  const author = req.session.user._id;
+router.post('/', function (req, res, next) {
+  const author = '';//req.session.user._id;
   const title = req.fields.title;
   const content = req.fields.content;
   // 校验参数
@@ -59,14 +65,15 @@ router.post('/', checkLogin, errorHandler, function (err, req, res, next) {
   PostModel.create(post)
     .then(function (result) {
       // 此 post 是插入 mongodb 后的值，包含 _id
-      post = result.ops[0];
+      console.log(`post: ${JSON.stringify(post)}, result: ${JSON.stringify(result)}`);
+      const resPost = result.ops[0];
       res.jsonp({
         code: 0,
+        result: resPost,
         msg: 'add succeed'
       });
     })
     .catch(next);
-
 });
 
 // 更新文章

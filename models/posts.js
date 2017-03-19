@@ -7,7 +7,7 @@ module.exports = {
   getPostById: function (postId) {
     return Post
       .findOne({ _id: postId})
-      .populate({ path: 'author', model: 'User' })
+      //.populate({ path: 'author', model: 'User' })
       .createAt()
       .exec();
   },
